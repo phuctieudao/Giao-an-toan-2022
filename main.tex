@@ -1,0 +1,80 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[utf8]{vietnam}
+\usepackage[top=1.5cm, bottom=1.5cm, left=1.25cm, right=1cm] {geometry}
+\usepackage{titlesec}
+%\usepackage{titletoc}
+\usepackage{tikz,tkz-tab}
+\usepackage{amsmath,amssymb,mathrsfs,fontawesome}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage[dethi]{ex_test}
+\usepackage{giaoan}
+\renewcommand{\nameex}{\fontfamily{pag}\selectfont\color{red!70!black} Câu}
+%\def\loigiaiEX{\color{blue!30!black}\sffamily\bfseries\faFolderOpen~Lời giải.}
+\newlength\ChapWd
+\settowidth\ChapWd{\huge\chaptertitlename}
+
+\titleformat{\chapter}[display]
+  {\normalfont\filcenter\sffamily}
+  {\tikz[remember picture,overlay]
+    {
+    \node[fill=black!50,font=\fontsize{60}{72}\selectfont\color{white},anchor=north west,minimum size=\ChapWd] 
+      at ([xshift=50pt,yshift=-30pt]current page.north west) 
+      (numb) {\thechapter};
+    \node[rotate=90,anchor=south,inner sep=0pt,font=\huge] at (numb.west) {\bfseries\chaptertitlename};
+    }
+  }{0pt}{\fontsize{40}{30}\selectfont\MakeUppercase}
+\titlespacing*{\chapter}{60pt}{-10pt}{30pt}
+%---------Chỉnh section-------------
+\titlespacing*{\section}{0cm}{-0.2cm}{0.2cm}[0cm]
+\titleformat{\section}
+{\fontfamily{put}\selectfont\Large\color{red!80!black}}
+{\fontfamily{put}\selectfont\bfseries\color{red!80!black} \S\textcolor{red!80!black}{\thesection.}}
+{0.35em}
+{	
+	\bfseries\filcenter\MakeUppercase
+}
+%-------Chỉnh subsection-----------MỤC
+\newcommand{\nen}[1]{% Định nghĩa hình tròn
+	\begin{tikzpicture}[baseline=(A.base),scale=1.2]%
+	\node[circle,draw=blue!50!black,fill=white,inner sep=2pt,outer sep=1pt] (A) {\fontsize{13pt}{1pt}\selectfont\color{white} #1};
+	\node[circle,draw=none,fill=blue!50!black,inner sep=1pt,outer sep=1pt] (A) {\fontsize{13pt}{1pt}\selectfont\color{white} #1};
+	\end{tikzpicture}%
+}
+\titlespacing*{\subsection}{0cm}{0.2cm}{0.2cm}[0cm]
+\titleformat{\subsection}
+{\large\bfseries\fontfamily{qag}\selectfont\color{blue!50!black}}
+{\hspace*{-1mm}\fontfamily{qag}\large\selectfont\nen{\thesubsection}\ 
+}
+{0.15em}
+{\fontsize{13pt}{1pt}\bfseries\fontfamily{qag}\selectfont\color{blue!50!black}\MakeUppercase}
+%-------Chỉnh subsubsection----------------
+\titlespacing*{\subsubsection}{0cm}{0.2cm}{0.2cm}[0cm]
+\titleformat{\subsubsection}
+{\fontsize{12pt}{1pt}\selectfont\color{violet!70!black}\sffamily\bfseries}
+{\thesubsubsection.}
+{0.15em}
+{\bfseries\sffamily}
+%------------
+\renewcommand{\labelenumi}{\small
+%	\faCheckSquareO 
+	\faCheckCircleO
+}
+%======================Đánh số trang, head, foot
+\pagestyle{fancy} 
+\fancyhf{} 
+\fancyhead[LO,RE]{\it\sf\fontsize{10pt}{1pt}\selectfont\faMortarBoard\, Giáo viên: Tiêu Đình Phúc}
+\fancyfoot[RO,LE]{\sf\fontsize{10pt}{1pt}\selectfont\faClockO\, Trang \thepage}
+\fancyfoot[RE,LO]{\sf\fontsize{10pt}{1pt}\selectfont\faClockO\, Năm hoc: 2022-2023}
+\cfoot{}
+\chead{}
+\renewcommand{\footrulewidth}{0.6pt}
+\renewcommand{\headrulewidth}{0.6pt}
+%------------------------
+
+\begin{document}
+%\tableofcontents
+\chapter{Thống kê}
+\input{data/thongke}
+
+\end{document}

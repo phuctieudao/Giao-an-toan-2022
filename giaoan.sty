@@ -1,0 +1,125 @@
+%\NeedsTexFormat{LaTex2e}[1994/01/06]
+\ProvidesPackage{giaoan}[11/06/2022 ]
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{ifthen}
+\RequirePackage{longtable}
+\RequirePackage{environ}
+\usetikzlibrary{calc}
+%Khai báo các khung tcolorbox----------------------------------------
+\tcbset{tcb1/.style={enhanced,breakable,boxrule=0.2mm,arc=0mm,
+attach boxed title to top left={xshift=0cm,yshift*=0mm-\tcboxedtitleheight},
+boxed title style={frame code={
+\coordinate (A) at (frame.north east);
+\coordinate (B) at (frame.south east);
+\path[fill=tcbcolback!30!black](frame.north east)--([xshift=-2mm]frame.north west)--([xshift=-2mm]frame.south west)--(frame.south east) --([xshift=3mm]$(A)!0.5!(B)$)--cycle;
+\draw[white,line width=2pt]([xshift=-2mm]frame.north east)--([xshift=1mm]$(A)!0.5!(B)$)--([xshift=-2mm]frame.south east);
+\path[fill=tcbcolback!60!black]([xshift=-2mm]frame.south west)--+(2mm,-2mm)|-cycle;
+},interior engine=empty,
+}, fonttitle=\normalsize\bfseries,fontupper=\normalsize,frame hidden, }
+}
+\tcbset{tcb2/.style={enhanced,boxrule=0.2mm,
+		attach boxed title to top left={xshift=5mm,yshift*=1mm-\tcboxedtitleheight},
+		boxed title style={frame code={
+				\path[fill=tcbcolback!30!black]([yshift=-1mm,xshift=-1mm]frame.north west)
+				arc[start angle=0,end angle=180,radius=1mm]([yshift=-1mm,xshift=1mm]frame.north east)
+				arc[start angle=180,end angle=0,radius=1mm];
+				\path[left color=tcbcolback!60!black,right color=tcbcolback!60!black,middle color=tcbcolback!80!black]
+				([xshift=-2mm]frame.north west) -- ([xshift=2mm]frame.north east)[rounded corners=1mm]--
+				([xshift=1mm,yshift=-1mm]frame.north east)-- (frame.south east) -- (frame.south west)-- 
+				([xshift=-1mm,yshift=-1mm]frame.north west)[sharp corners]-- cycle;},interior engine=empty,},
+		fonttitle=\normalsize\bfseries,fontupper=\normalsize,arc=0.5mm,boxrule=1mm,frame hidden,breakable,}
+}
+\tcbset{tcb3/.style={enhanced,breakable,boxrule=0.5mm,arc=0mm,
+attach boxed title to top center= {yshift=-0.25mm-\tcboxedtitleheight/2,yshifttext=2mm-\tcboxedtitleheight/2},
+ boxed title style={boxrule=0.5mm, frame code={ \path[tcb fill frame] ([xshift=-4mm]frame.west)
+ -- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)-- (frame.south east) -- (frame.south west) -- cycle; },
+ interior code={ \path[tcb fill interior] ([xshift=-2mm]interior.west) -- (interior.north west) -- (interior.north east)
+ -- ([xshift=2mm]interior.east) -- (interior.south east) -- (interior.south west)-- cycle;}}
+}
+}
+\tcbset{tcb4/.style={enhanced, breakable,boxrule=0.2mm, arc=2mm,
+    attach boxed title to top left={xshift=0cm, yshift*=0mm-\tcboxedtitleheight},
+    %varwidth boxed title*=-3cm,
+    boxed title style={interior empty,
+        %interior engine=empty,
+        frame code={\path[fill=tcbcolback!60!black]
+             ([xshift=+0.5cm]frame.north east)[rounded corners=2mm]--(frame.north west)[sharp corners]--(frame.south west) --(frame.south east)to[out=0,in=180]cycle;
+             \draw[tcbcolback!30!black]([yshift=-0.5mm]frame.south west)--([yshift=-0.5mm,xshift=+0.4mm]frame.south east)to[out=0,in=180]([yshift=0mm,xshift=+0.58cm]frame.north east);
+             },}}
+}
+\newtcolorbox[auto counter]{kt}[2][]
+{tcb3,colframe=violet,colback=white,colbacktitle=green!5,fonttitle=\bfseries,coltitle=black,title={\textbf{KT}\thetcbcounter.~#2},#1
+}
+%Tiêu đề bài soạn-------------------------------------------
+\newtcolorbox{boxtd}[1][]{enhanced,left=0pt,right=0pt,boxrule=1pt,
+interior code app={
+\draw[line width=1pt]([xshift=0.2\linewidth]interior.north west)--([xshift=0.2\linewidth]interior.south west);
+\draw[line width=1pt]([xshift=-0.25\linewidth]interior.north east)--([xshift=-0.25\linewidth]interior.south east);},
+arc=4mm,colframe=violet,colback=yellow!5,} 
+
+\newcommand{\tieude}[4]{
+\begin{boxtd}
+\begin{minipage}[t]{0.2\linewidth}
+\centering \bfseries 	\textcolor{violet}{\bf\fontfamily{qag}\selectfont Tuần: #1 \\
+Tiết: #2}
+\end{minipage}
+\begin{minipage}[t]{0.56\linewidth}
+\centering \bfseries \section{#3}
+\end{minipage}
+\begin{minipage}[t]{0.13\linewidth}
+\bfseries
+\textcolor{violet}{\bf\fontfamily{qag}\selectfont Ngày soạn: \\#4}
+\end{minipage}
+\end{boxtd}
+}
+
+%Khung giáo án-------------------------------------------
+
+\NewEnviron{bang}[1]{
+\ifthenelse{\equal{#1}{3}}
+{
+\begin{longtable}[!hbp]{|p{.05\textwidth}|p{.4\textwidth}|p{.5\textwidth}|} \hline 
+\centerline{TG} & \centerline{Hoạt động của GV và HS} & \centerline{Nội dung} \\ \hline
+\endhead \hline \endfoot \hline
+\BODY
+ \hline
+\end{longtable}
+}
+{\begin{longtable}[!hbp]{|p{.5\textwidth}|p{.45\textwidth}|} \hline 
+\centerline{Hoạt động của GV} & \centerline{Hoạt động của HS}\\ \hline
+\endhead \hline \endfoot \hline
+\BODY
+ \hline
+\end{longtable}}
+}
+% Định nghìa lại tên bài, phần, hoạt động theo các mục
+\setcounter{secnumdepth}{4}
+\renewcommand{\thesubsection}{\Alph{subsection}}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}}
+\let\bai\section
+\let\phan\subsection
+\let\muccon\subsubsection
+%-------------------------------
+\newcommand{\gvhsnd}[3]{#1 & #2 & #3 \\}
+\newcommand{\gvhs}[2]{#1 & #2 \\}
+
+%\theoremstyle{definition} % Sets the theorem style without italic
+\NewDocumentCommand{\createtheorem}{m m m m m}{%
+    % #1 -> environment name
+    % #2 -> italian name
+    % #3 -> background color
+    % #4 -> border color
+    % #5 -> title color
+ \newtcolorbox[auto counter,number within=section]{#1}[1][]{colback=#3,colframe=#4,coltitle=#5,fonttitle=\bfseries,parbox=false,title=#2~\thetcbcounter~|~##1}
+}
+
+\createtheorem{dn}{Định nghĩa}{Red2!10}{Red2!40}{black}
+\createtheorem{dl}{Định lí}{Chartreuse2!10}{Chartreuse3!30}{black}
+\createtheorem{hq}{Hệ quả}{Chartreuse3!10}{Chartreuse3!40}{black}
+\createtheorem{tc}{Tinh chất}{Sienna2!10}{Sienna2!90}{white}
+\createtheorem{bt}{Bài tập}{Red1!10}{Red1!60}{white}
+\createtheorem{vd}{Ví dụ}{MediumPurple3!10}{MediumPurple3!40}{black}
+%
+
+\endinput
